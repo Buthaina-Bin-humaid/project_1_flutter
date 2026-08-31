@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../Models/place_model.dart';
+
 class AlMasmakPalace extends StatelessWidget {
-  const AlMasmakPalace({super.key});
+  final PlaceModel place;
+
+  const AlMasmakPalace({super.key, required this.place});
 
   Future<void> openMap() async {
     final Uri url = Uri.parse(
@@ -28,9 +32,9 @@ class AlMasmakPalace extends StatelessWidget {
         ),
         backgroundColor: const Color.fromARGB(255, 11, 68, 13),
         centerTitle: true,
-        title: const Text(
-          "قصر المصمك",
-          style: TextStyle(
+        title: Text(
+          place.name,
+          style: const TextStyle(
             fontSize: 35,
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -42,9 +46,9 @@ class AlMasmakPalace extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // صورة قصر المصمك
+            // صورة المكان
             Image.asset(
-              "assets/masmak.jpg",
+              place.image,
               width: double.infinity,
               height: screenHeight * 0.45,
               fit: BoxFit.cover,
