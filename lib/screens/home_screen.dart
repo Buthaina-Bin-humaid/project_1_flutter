@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_1_flutter/services/database.dart';
 
 import '../Models/station_model.dart';
 import '../data/station_data.dart';
@@ -62,177 +63,183 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
 
-      body: Column(
-        children: [
-          // Search Bar
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Container(
-                width: screenWidth * 0.9,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  boxShadow: const [
-                    BoxShadow(
-                      blurRadius: 3,
-                      spreadRadius: 1,
-                    ),
-                  ],
-                ),
-                child: const TextField(
-                  textAlign: TextAlign.right,
-                  decoration: InputDecoration(
-                    hintText: "اختر محطتك",
-                    hintStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    prefixIcon: Icon(Icons.search),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 10,
-                    ),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-            ),
-          ),
+      body: FutureBuilder(
+        future: Database().getAllPlaces(),
+        builder: (context, asyncSnapshot) {
 
-          // عنوان المحطات
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                "المحطات",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w900,
-                  color: const Color.fromARGB(255, 11, 68, 13),
-                ),
-              ),
-            ),
-          ),
-
-          const SizedBox(height: 5),
-
-          // المحطات
-          Expanded(
-            child: ListView.builder(
-              itemCount: stations.length,
-              itemBuilder: (context, index) {
-                final station = stations[index];
-
-                return GestureDetector(
-                  onTap: () {
-                    if (station.name == "محطة قصر الحكم") {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const QasrAlHukm(),
-                        ),
-                      );
-                    }
-                  },
+          return Column(
+            children: [
+              // Search Bar
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
                   child: Container(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 10,
-                    ),
-                    height: screenHeight * 0.15,
+                    width: screenWidth * 0.9,
+                    height: 50,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: const [
                         BoxShadow(
                           blurRadius: 3,
-                          spreadRadius: 0.5,
+                          spreadRadius: 1,
                         ),
                       ],
                     ),
-                    child: Row(
-                      children: [
-                        // معلومات المحطة
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                // اسم المحطة
-                                Text(
-                                  station.name,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w900,
-                                  ),
-                                ),
-
-                                // المسار
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      station.line,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Icon(
-                                      Icons.circle,
-                                      color: station.color,
-                                      size: 18,
-                                    ),
-                                  ],
-                                ),
-
-                                // الوجهات
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      station.destinations,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Icon(
-                                      Icons.location_on,
-                                      color: station.color,
-                                      size: 20,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+                    child: const TextField(
+                      textAlign: TextAlign.right,
+                      decoration: InputDecoration(
+                        hintText: "اختر محطتك",
+                        hintStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
                         ),
-
-                        // الصورة
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image.asset(
-                            station.image,
-                            width: screenHeight * 0.15,
-                            height: screenHeight * 0.15,
-                            fit: BoxFit.cover,
-                          ),
+                        prefixIcon: Icon(Icons.search),
+                        contentPadding: EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 10,
                         ),
-                      ],
+                        border: InputBorder.none,
+                      ),
                     ),
                   ),
-                );
-              },
-            ),
-          ),
-        ],
+                ),
+              ),
+          
+              // عنوان المحطات
+              Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "المحطات",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                      color: const Color.fromARGB(255, 11, 68, 13),
+                    ),
+                  ),
+                ),
+              ),
+          
+              const SizedBox(height: 5),
+          
+              // المحطات
+              Expanded(
+                child: ListView.builder(
+                  itemCount: stations.length,
+                  itemBuilder: (context, index) {
+                    final station = stations[index];
+          
+                    return GestureDetector(
+                      onTap: () {
+                        if (station.name == "محطة قصر الحكم") {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const QasrAlHukm(),
+                            ),
+                          );
+                        }
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
+                        height: screenHeight * 0.15,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: const [
+                            BoxShadow(
+                              blurRadius: 3,
+                              spreadRadius: 0.5,
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            // معلومات المحطة
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    // اسم المحطة
+                                    Text(
+                                      station.name,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w900,
+                                      ),
+                                    ),
+          
+                                    // المسار
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          station.line,
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Icon(
+                                          Icons.circle,
+                                          color: station.color,
+                                          size: 18,
+                                        ),
+                                      ],
+                                    ),
+          
+                                    // الوجهات
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          station.destinations,
+                                          style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Icon(
+                                          Icons.location_on,
+                                          color: station.color,
+                                          size: 20,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+          
+                            // الصورة
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Image.asset(
+                                station.image,
+                                width: screenHeight * 0.15,
+                                height: screenHeight * 0.15,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          );
+        }
       ),
 
       // Bottom Navigation Bar

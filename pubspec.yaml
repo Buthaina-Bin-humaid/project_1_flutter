@@ -7,8 +7,10 @@ environment:
   sdk: ^3.13.1
 
 dependencies:
+  dash_chat_2: ^0.0.21
   flutter:
     sdk: flutter
+  supabase_flutter: ^2.17.2
   url_launcher: ^6.3.2
 
 dev_dependencies:
