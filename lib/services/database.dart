@@ -10,8 +10,8 @@ class Database {
     List<PlaceModel> allPlaces = [];
 
     for (var element in data) {
-      PlaceModel course = PlaceModel.fromJson(element);
-      allPlaces.add(course);
+      PlaceModel place = PlaceModel.fromJson(element);
+      allPlaces.add(place);
     }
 
     return allPlaces;
