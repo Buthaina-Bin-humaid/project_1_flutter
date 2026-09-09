@@ -7,7 +7,7 @@ Future<void> main() async {
 
   await Supabase.initialize(
     url: "https://owzictcomkslqcalehxw.supabase.co",
-    publishableKey: "sb_publishable_TNbhL7TeJR_9vOshugUuFw_nDwaoE5F",
+    publishableKey: "ur key",
   );
   runApp(const MainApp());
 }
