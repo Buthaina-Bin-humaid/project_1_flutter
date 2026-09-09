@@ -10,6 +10,7 @@ dependencies:
   dash_chat_2: ^0.0.21
   flutter:
     sdk: flutter
+  flutter_dotenv: ^6.0.1
   supabase_flutter: ^2.17.2
   url_launcher: ^6.3.2
 
@@ -23,3 +24,4 @@ flutter:
 
   assets:
     - assets/
+    - .env
